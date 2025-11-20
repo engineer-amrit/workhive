@@ -1,17 +1,11 @@
-export interface ResponseError {
-    status: number;
-    errors?: {
-        path: string[];
-        message: string;
-    }[];
-    error: string;
-}
-
+import type { ResponseError } from "~/classes/utils/globalFetchErrorHandler";
 export interface ResponseSuccess<T> {
     status: number;
     data?: T;
     message: string;
 }
+
+export type Data<T> = ResponseSuccess<T> | ResponseError;
 
 export type User = {
     id: string;

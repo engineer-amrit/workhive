@@ -1,76 +1,36 @@
+
 // src/components/auth/LoginForm.tsx
 import { useState, useEffect } from 'react';
 import { Link, useFetcher } from 'react-router';
-import { actionWithtx, type Data } from '~/utils/action';
+import { CustomAction } from '~/classes/utils/action';
 import { type LoginSchema, loginSchema } from '~/validation/auth-schema';
-import { objectMaker } from '~/utils/objectMaker';
-import { validateSchema } from '~/utils/validator';
-import bcrypt from 'bcrypt';
-import { env } from '~/config/env';
-import jwt from 'jsonwebtoken';
 import { redirect } from '@remix-run/node';
+import { Auth } from '~/classes/services/auth';
+import type { Data } from '~/types/index';
+import { CustomLoader } from '~/classes/utils/loader';
+import { UserContext } from '~/middleware/context';
 
+export const loader = CustomLoader.withoutTx(async ({ context }) => {
+    const user = context.get(UserContext);
+    if (user) {
+        return redirect("/");
+    }
+})
 
-export const action = actionWithtx<LoginSchema>(async ({ request }, tx) => {
+export const action = CustomAction.withTx(async ({ request }, tx) => {
     const formData = await request.formData();
-    const data = objectMaker(formData);
-    const parsedData = await validateSchema(loginSchema, data);
+    const data = CustomAction.objectMaker(formData);
 
-    // find user
-    const user = await tx.user.findUnique({
-        where: {
-            email: parsedData.email
-        },
-    });
+    // validate data
+    const valid = await loginSchema.parseAsync(data);
 
-    if (!user) {
-        throw {
-            status: 404,
-            error: "User not found"
-        }
-    }
-
-    const compare = bcrypt.compareSync(parsedData.password, user.password);
-
-    if (!compare) {
-        throw {
-            status: 401,
-            error: "Invalid credentials"
-        }
-    }
-
-    // remove sensitive fields before signing
-    const { password: _password, ...userWithoutPassword } = user;
+    const auth = new Auth(tx);
+    const user = await auth.signIn(valid);
 
     // creating jwt token
-    const access = jwt.sign(userWithoutPassword, env.JWT_SECRET, {
-        expiresIn: '12h'
-    });
-    const refresh = jwt.sign({
-        userId: user.id,
-    }, env.JWT_SECRET, { expiresIn: '7d' });
-
-    await tx.refreshToken.create({
-        data: {
-            token: refresh,
-            userId: user.id,
-        }
-    });
-    const headers = new Headers();
-
-    headers.append(
-        "Set-Cookie",
-        `access=${access}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`
-    );
-    headers.append(
-        "Set-Cookie",
-        `refresh=${refresh}; HttpOnly; Path=/; Max-Age=${30 * 24 * 60 * 60}`
-    );
-
+    const { access, refresh } = await auth.generateTokens(user.id, true);
+    const headers = auth.setCookies(new Headers, access, refresh);
     return redirect("/", { headers });
-
-    // Perform login logic here, e.g., check credentials against the database
-    // For demonstration, we'll just return a success message
 });
 
 function LoginForm() {

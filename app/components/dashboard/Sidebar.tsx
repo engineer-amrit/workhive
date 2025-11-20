@@ -1,26 +1,32 @@
 import { FileText, Target, Building2, User, Plus, LogOut } from "lucide-react";
 import { Link, useRouteLoaderData } from "react-router";
+import type { User as Iuser } from "~/types";
 
 const Sbar = () => {
+    const data = useRouteLoaderData<Iuser>("root")
 
     return (
         <div className="w-full bg-gray-800 border-r border-gray-700 flex flex-col h-screen">
             {/* User Info */}
-            <div className="h-16 border-b border-gray-700 flex items-center px-4">
+            {!(data?.fullName) ? <div className="h-16 border-b border-gray-700 flex items-center justify-center px-4">
+                <Link to="login" className="bg-green-600 p-2 w-40 rounded-md text-white text-sm font-medium hover:bg-green-700 transition text-center">
+                    Login
+                </Link>
+            </div> : <div className="h-16 border-b border-gray-700 flex items-center px-4">
                 <div className="flex items-center gap-3">
                     <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-semibold text-sm">
-                        {/* {getUserInitials()} */}
+                        {data.fullName.split(" ").map(n => n[0]).join("").toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
                         <p className="text-white font-medium text-sm truncate">
-                            {"User's Workspace"}
+                            {data.fullName}'s Workspace
                         </p>
                         <p className="text-gray-400 text-xs truncate">
-                            {"user@example.com"}
+                            {data.email}
                         </p>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             {/* Navigation */}
             <div className="p-4">

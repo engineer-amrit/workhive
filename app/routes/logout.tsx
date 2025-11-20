@@ -1,16 +1,24 @@
+import { CustomLoader } from "~/classes/utils/loader";
+import { UserContext } from "~/middleware/context";
+import { Auth } from "~/classes/services/auth";
 import { redirect } from "react-router";
-import { loaderWithoutTx } from "~/utils/loader";
-export const loader = loaderWithoutTx(async () => {
-    const headers = new Headers();
 
-    headers.append(
-        "Set-Cookie",
-        `access=; HttpOnly; Path=/; Max-Age=0`
-    );
-    headers.append(
-        "Set-Cookie",
-        `refresh=; HttpOnly; Path=/; Max-Age=0`
-    );
+export const loader = CustomLoader.withTx(async ({ context, request }, tx) => {
+
+    const auth = new Auth(tx);
+    const cookies = auth.getCookies(request)
+    const id = context.get(UserContext).id
+    if (!id) {
+        return redirect("/login");
+    }
+
+    await tx.refreshToken.deleteMany({
+        where: {
+            userId: id,
+            token: cookies.refresh
+        }
+    });
+    const headers = auth.clearCookies(new Headers());
     return redirect("/login", { headers });
 });
 

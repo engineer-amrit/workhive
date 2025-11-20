@@ -1,14 +1,16 @@
 import { Sparkles } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useRouteLoaderData } from "react-router";
+import type { User } from "~/types";
 const Header = () => {
-    const currentUser = { name: "Alex Johnson" }; // Replace with actual user fetching logic
+    const data = useRouteLoaderData<User>("root");
+
     return (
         <div className="bg-gray-800 border-b px-2.5 border-gray-700 h-16 sticky top-0 z-10 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <span className="text-2xl">👋</span>
                 <h1 className="text-white font-bold text-xl">
                     Welcome to WorkHive
-                    {currentUser?.name ? `, ${currentUser.name.split(" ")[0]}` : ""}!
+                    {data?.fullName ? `, ${data.fullName.split(" ")[0]}` : ""}!
                 </h1>
             </div>
             <Link

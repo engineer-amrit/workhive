@@ -7,10 +7,17 @@ import {
   ScrollRestoration,
   useNavigation,
 } from "react-router";
-
 import type { Route } from "./+types/root";
+import { CustomMiddleware } from "~/classes/utils/middleware";
+import { Auth } from "~/classes/services/auth";
+import { UserContext } from "~/middleware/context";
+import jwt from "jsonwebtoken";
+const { TokenExpiredError } = jwt;
+import type { User } from "@prisma/client";
 import "./css/app.css";
 import WholePageLoader from "./components/ui/WholePageLoader";
+import { CustomLoader } from "./classes/utils/loader";
+
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,9 +32,51 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export async function loader() {
-  console.log("root loader");
-}
+
+const authMiddleware = CustomMiddleware.withTx(async ({ request, context }, _, tx) => {
+
+  // verify tokens
+  const auth = new Auth(tx);
+  const { access, refresh } = auth.getCookies(request);
+  try {
+
+    const decoded = auth.verifyToken<Omit<User, "password">>(access!);
+    context.set(UserContext, decoded);
+  } catch (error) {
+
+    if ((!access || error instanceof TokenExpiredError) && refresh) {
+      const { access: newAccessToken, refresh: newRefreshToken, decoded } = await auth.refreshTokens(refresh);
+      const headers = auth.setCookies(new Headers(), newAccessToken, newRefreshToken);
+      context.set(UserContext, {
+        ...decoded,
+        headers
+      });
+    }
+
+    else if (!refresh) {
+
+      throw {
+        status: 401,
+        error: "Authentication required. Please log in.",
+      };
+    }
+
+
+
+    throw error;
+
+  }
+
+
+});
+
+export const loader = CustomLoader.withoutTx(async ({ context }) => {
+  const { headers, ...rest } = context.get(UserContext);
+  return Response.json(rest, { headers });
+});
+
+export const middleware: Route.MiddlewareFunction[] = [authMiddleware];
+
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -57,12 +106,14 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
+  console.log(error);
+
+  let message: any = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status
     details =
       error.status === 404
         ? "The requested page could not be found."

@@ -1,80 +1,39 @@
 // src/components/auth/SignupForm.jsx
 import { useEffect, useState } from "react";
 import { Link, useFetcher, redirect } from "react-router";
-import { signUpSchema, type SignUpSchema } from "~/validation/auth-schema";
-import { objectMaker } from "~/utils/objectMaker";
-import { actionWithtx, type Data } from "~/utils/action";
-import { validateSchema } from "~/utils/validator";
-import jwt from "jsonwebtoken";
-import { env } from "~/config/env"
+import { type SignUpSchema, signUpSchema } from "~/validation/auth-schema";
+import { CustomAction } from "~/classes/utils/action";
+import { Auth } from "~/classes/services/auth";
+import type { Data } from "~/types/index";
+import { CustomLoader } from "~/classes/utils/loader";
+import { UserContext } from "~/middleware/context";
 
-export const action = actionWithtx(async ({ request }, tx) => {
+export const action = CustomAction.withTx(async ({ request }, tx) => {
 
     // parse form data
     const formData = await request.formData();
-    const data = objectMaker(formData);
+    const data = CustomAction.objectMaker(formData);
 
-    // validate data
-    const validationResult = await validateSchema(signUpSchema, data);
+    // sign up
+    const auth = new Auth(tx);
+    const validData = await signUpSchema.parseAsync(data);
+    const newUser = await auth.signUp(validData);
 
-    // find if user already exists
-    const existingUser = await tx.user.findUnique({
-        where: {
-            email: validationResult.email
-        }
-    });
+    // create tokens
+    const { access, refresh } = await auth.generateTokens(newUser.id, true);
 
-    if (existingUser) {
-        throw {
-            status: 400,
-            errors: [{ path: ["email"], message: "User already in use" }],
-            error: "validation error"
-        }
-    }
-    // create user
-
-    const user = await tx.user.create({
-        data: validationResult,
-        select: {
-            id: true,
-            fullName: true,
-            email: true,
-            createdAt: true,
-            updatedAt: true
-        }
-    });
-
-    // creating jwt token
-    const access = jwt.sign(user, env.JWT_SECRET, {
-        expiresIn: '12h'
-    });
-    const refresh = jwt.sign({
-        userId: user.id,
-    }, env.JWT_SECRET, { expiresIn: '7d' });
-
-    await tx.refreshToken.create({
-        data: {
-            token: refresh,
-            userId: user.id,
-        }
-    });
-    const headers = new Headers();
-
-    headers.append(
-        "Set-Cookie",
-        `access=${access}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`
-    );
-    headers.append(
-        "Set-Cookie",
-        `refresh=${refresh}; HttpOnly; Path=/; Max-Age=${30 * 24 * 60 * 60}`
-    );
+    // set cookies
+    const headers = auth.setCookies(new Headers, access, refresh);
 
     return redirect("/", { headers });
-
 });
-// export async function action() {
-//     return { error: "Action not implemented yet" };
-// }
+
+export const loader = CustomLoader.withoutTx(async ({ context }) => {
+    const user = context.get(UserContext);
+    if (user) {
+        return redirect("/");
+    }
+})
 
 
 function SignupForm() {
