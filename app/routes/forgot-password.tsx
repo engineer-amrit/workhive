@@ -1,30 +1,33 @@
 // src/components/auth/ForgotPassword.jsx
 import { useState } from "react";
-import { useFetcher, Link, useNavigate } from "react-router";
+import { useFetcher, Link, useRouteError } from "react-router";
 import { CustomAction } from "~/classes/utils/action";
-import { transporter } from "~/config/mailer";
+import { transporter, passwordResetEmail } from "~/config/mailer";
+import { env } from "~/config/env";
+import { loginSchema } from "~/validation/auth-schema";
+import type { ResponseError } from "~/classes/utils/globalFetchErrorHandler";
 
 export const action = CustomAction.withoutTx(async ({ request }) => {
     const formData = await request.formData();
     const data = CustomAction.objectMaker(formData);
+    const validData = loginSchema.pick({ email: true }).parse(data);
 
-    const info = await transporter.sendMail({
-        from: '"Maddison Foo Koch" <amritsinghramgahria@gmail.com>',
-        to: "814994@columbiacollege.ca",
-        subject: "Hello ✔",
-        text: "Hello world?", // plain‑text body
-        html: "<b>Hello world?</b>", // HTML body
+    // await transporter.sendMail({
+    //     from: '"WorkHive security" <' + env.EMAIL_USER + '>', // sender address
+    //     to: validData.email, // list of receivers
+    //     ...passwordResetEmail(`https://${env.DOMAIN.slice(1)}/reset-password?token=dummytoken`)
+    // });
+    return Response.json({
+        message: "A password reset link has been sent."
     });
-    console.log(info);
-    return null;
-
 });
 
 function ForgotPassword() {
-    const [email, setEmail] = useState("");
-    const { Form } = useFetcher();
-    const [successMessage, setSuccessMessage] = useState("");
-    const navigate = useNavigate();
+    const error = useRouteError() as ResponseError;
+    const { state, data, Form } = useFetcher<
+        { message: string }
+    >();
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-400 to-purple-600 p-5">
@@ -38,17 +41,17 @@ function ForgotPassword() {
 
                 <Form method='POST'
                     className="flex flex-col gap-5">
-                    {false && (
+                    {error && (
                         <div className="flex items-center gap-3 p-3 rounded-lg text-sm bg-red-200 text-red-700 border border-red-300">
                             <span className="text-lg">⚠️</span>
-                            <p className="m-0 flex-1">{ }</p>
+                            <p className="m-0 flex-1">{error.error}</p>
                         </div>
                     )}
 
-                    {successMessage && (
+                    {data && !error && (
                         <div className="flex items-center gap-3 p-3 rounded-lg text-sm bg-green-200 text-green-700 border border-green-300">
                             <span className="text-lg">✅</span>
-                            <p className="m-0 flex-1">{successMessage}</p>
+                            <p className="m-0 flex-1">{data.message}</p>
                         </div>
                     )}
 
@@ -60,8 +63,6 @@ function ForgotPassword() {
                             id="email"
                             type="email"
                             name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             autoComplete="email"
                             className="
@@ -75,6 +76,7 @@ function ForgotPassword() {
 
                     <button
                         type="submit"
+                        disabled={state == "submitting"}
                         className="
             p-3 bg-gradient-to-br from-indigo-400 to-purple-600 text-white
             rounded-lg text-lg font-semibold transition-all duration-200
@@ -82,7 +84,7 @@ function ForgotPassword() {
             disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none
           "
                     >
-                        {false ? "Sending..." : "Send Reset Link"}
+                        {state == "submitting" ? "Sending..." : "Send Reset Link"}
                     </button>
 
                     <div className="text-center mt-2">
