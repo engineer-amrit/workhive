@@ -1,0 +1,50 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\.9aa5cb10c8c7afedb469f2cef98c0846c343bf1c-audit.json",
+    "files": [
+        {
+            "date": 1761185822420,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-23.log",
+            "hash": "ca4bcbcc36476f4494f6239f27ce3ec2a046ea4ee045984c06b52242c764cea3"
+        },
+        {
+            "date": 1761266556985,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-24.log",
+            "hash": "a4b759899ee04dcd2483a67c9d96a6ee465198c4761480c517a6156abb81b81d"
+        },
+        {
+            "date": 1761373534855,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-25.log",
+            "hash": "c023b080d4971794e8b5ed0af9c6bfbc696afb53acc4d77d650d23bb30728dc4"
+        },
+        {
+            "date": 1761463321388,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-26.log",
+            "hash": "2e5c4c093b1855d5b0edead4a8921e6e030f8b787dc2afcdf8445d038c440e2c"
+        },
+        {
+            "date": 1761595854107,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-27.log",
+            "hash": "6626405688f106adb08bc937fe35364bea5a38218c86646cedf9168129af157c"
+        },
+        {
+            "date": 1761723522141,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-29.log",
+            "hash": "4aaab26fce0ecbdf9f48028680d393ecc430c5a39275d6414f596a3f2a8c0055"
+        },
+        {
+            "date": 1761793852214,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-30.log",
+            "hash": "1dd4dec6767a973bd7c74d859e4a157a3b2a0c9fe21f36dfe82ad342110771f4"
+        },
+        {
+            "date": 1761915750098,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\warn\\warn-2025-10-31.log",
+            "hash": "78434303f863f8af027f1262332be3ebb8b483e8b70df0ef009eb156fd832d94"
+        }
+    ],
+    "hashType": "sha256"
+}

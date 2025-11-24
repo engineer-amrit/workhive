@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\WorkHive\\backend\\logs\\info\\.b1a6e0878d7dd708923b4d787d7ef4f1689a651f-audit.json",
+    "files": [
+        {
+            "date": 1763881824278,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\info\\info-2025-11-23.log",
+            "hash": "17df42cf2d069bd273133c2f108db1f75ae5cb3130cb31bde5e65b5aaeb1750d"
+        },
+        {
+            "date": 1763943582257,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\info\\info-2025-11-24.log",
+            "hash": "563c7d87dcb4c0c2b83cdee96a9eb105f1b7feffc32a22f6b6106784958e7989"
+        }
+    ],
+    "hashType": "sha256"
+}

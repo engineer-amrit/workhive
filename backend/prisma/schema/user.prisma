@@ -1,0 +1,39 @@
+model User {
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    fullName      String
+    email         String         @unique
+    password      String
+    role          Role?
+    teamSize      Size?
+    useCase       UseCase?
+    profileFilled Boolean        @default(false)
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    refreshTokens RefreshToken[]
+    lastLogin     DateTime       @default(now())
+    passHash      PassHash?
+}
+
+enum Role {
+    DEVELOPER
+    DESIGNER
+    PRODUCT_MANAGER
+    MARKETING
+    STUDENT
+    OTHER
+}
+
+enum Size {
+    SOLO
+    SMALL
+    MEDIUM
+    LARGE
+}
+
+enum UseCase {
+    PERSONAL
+    TEAM
+    DOCUMENTATION
+    PROJECT_MANAGEMENT
+    KNOWLEDGE_BASE
+}

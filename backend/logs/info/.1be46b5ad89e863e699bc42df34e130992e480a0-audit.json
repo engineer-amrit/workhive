@@ -1,0 +1,55 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\.1be46b5ad89e863e699bc42df34e130992e480a0-audit.json",
+    "files": [
+        {
+            "date": 1761185822416,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-23.log",
+            "hash": "6b7685ca6ad9e2ef7d5cbd6bd8a631214275e1a3f5f90feba2eec082a6cd3623"
+        },
+        {
+            "date": 1761266380749,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-24.log",
+            "hash": "7ea9db2bd9b64f954ca0bd9f288f938bce30c90a228cb9752d5786f8b0def28e"
+        },
+        {
+            "date": 1761358993920,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-25.log",
+            "hash": "60aa83a0483f143b61f8d853f75a2a3e01b8f30f787a81c63efb20f0cec761c1"
+        },
+        {
+            "date": 1761463321382,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-26.log",
+            "hash": "3a6106f498d58464039c8dc8b63b2b3306d25145ad12a3e6c5904d5846daf797"
+        },
+        {
+            "date": 1761595854100,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-27.log",
+            "hash": "2ff1d98db47527a4457ab735f047b8a8518f8c4277d97fd6cc086abd0d0f88fd"
+        },
+        {
+            "date": 1761671161401,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-28.log",
+            "hash": "98def26d0fcbb345fbfca14ba97a8fa10638bc024d316987f48b2fcb5d664a60"
+        },
+        {
+            "date": 1761723522137,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-29.log",
+            "hash": "94ad10433e27f43be66f29206cb416d0443c46ff60c62388802ce0c3bbd041e2"
+        },
+        {
+            "date": 1761788020335,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-30.log",
+            "hash": "f95af68caf175d3660e2aa3e080f4ac5b415459d921215818b323b50cc9a0275"
+        },
+        {
+            "date": 1761915750092,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\info\\info-2025-10-31.log",
+            "hash": "4f05a45c8c4230afa0dc9e046e08fef697b75b54e6804e9c96d7615942c2f7ad"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,50 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\.a344e709a2d3d0673e2b27732666e9893b81f126-audit.json",
+    "files": [
+        {
+            "date": 1761185822423,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-23.log",
+            "hash": "2ee551fab1eb000395d18008d87231a513105c1e667bcacab74e7d1aa3d57f63"
+        },
+        {
+            "date": 1761266556990,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-24.log",
+            "hash": "e722a0d9c47bb5d2baf9b3f89f7a5bc79a5108409ae51bb0a539e4484f2daba1"
+        },
+        {
+            "date": 1761372630984,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-25.log",
+            "hash": "6bef32a38f47d97b662ffdae026232a138298c56dd298bb8c43dad218fa1d912"
+        },
+        {
+            "date": 1761463321392,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-26.log",
+            "hash": "4f8daa223e30d4a26de6ed46281fe415751272e7b0e5cb016bbb22f475d354c1"
+        },
+        {
+            "date": 1761595854110,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-27.log",
+            "hash": "bce41d47dc59c3c72201450709f956d9d1514f9d84c0b86bf41b40e111718777"
+        },
+        {
+            "date": 1761723522144,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-29.log",
+            "hash": "62f984ad33e63ed51d15fd32c0bcd6b4b6d130af6e25402062490257dc3ce161"
+        },
+        {
+            "date": 1761794700992,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-30.log",
+            "hash": "a3e40b3277a447b146c04ad2ce29b90da589c12993fc5b3a34490ea1dfdd6f8d"
+        },
+        {
+            "date": 1761915750101,
+            "name": "D:\\Learning\\OneStop-1.2V-\\backend\\logs\\error\\error-2025-10-31.log",
+            "hash": "35891abff2e5cd6fd8797e7b72b05516af8874c72875dff81d6e8cc503c11f44"
+        }
+    ],
+    "hashType": "sha256"
+}

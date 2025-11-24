@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\WorkHive\\backend\\logs\\error\\.bcdebed8632d622d8f4b84b3ad3155769163c7f5-audit.json",
+    "files": [
+        {
+            "date": 1763881824280,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\error\\error-2025-11-23.log",
+            "hash": "c6c4de831f572628a3b0ae899dc72c240fe708faea3041ec63169eeaf67e27d2"
+        },
+        {
+            "date": 1763943582266,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\error\\error-2025-11-24.log",
+            "hash": "7cf315e92701a51bc52a9b1ca4d037162299fdc7106ab121b935dffec4a5bb29"
+        }
+    ],
+    "hashType": "sha256"
+}

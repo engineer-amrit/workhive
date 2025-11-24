@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\Learning\\WorkHive\\backend\\logs\\access\\.e660d07c621494a739936f56deab257487e7e252-audit.json",
+    "files": [
+        {
+            "date": 1763881824282,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\access\\access-2025-11-23.log",
+            "hash": "82b2f5c51ab0a4c1c0e18dcc0e884a4a64cd3a54ff752f5e2819f65b26154eff"
+        },
+        {
+            "date": 1763943582269,
+            "name": "D:\\Learning\\WorkHive\\backend\\logs\\access\\access-2025-11-24.log",
+            "hash": "8e46ff02430740f59c8ee635906d32e951e5d6d17087ee01cf3ac4571105680a"
+        }
+    ],
+    "hashType": "sha256"
+}
